@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saffron Kitchen | Luxury Dining</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        /* --- Premium Theme Variables --- */
+        :root {
+            --bg-dark: #0a0f0c;
+            --bg-card: #121a15;
+            --gold: #c5a059;
+            --gold-light: #e5c687;
+            --text-light: #f4f4f4;
+            --text-muted: #a0a0a0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, .brand-font {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* --- Navigation --- */
+        nav {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            transition: background 0.4s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(10, 15, 12, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--gold);
+            letter-spacing: 2px;
+            font-family: 'Cormorant Garamond', serif;
+            line-height: 1;
+            text-decoration: none;
+        }
+        .logo span { font-size: 10px; display: block; font-family: 'Montserrat', sans-serif; font-weight: 400; color: var(--text-light); letter-spacing: 5px; margin-top: 5px;}
+
+        /* Side Menu Button */
+        .side-menu-btn {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            background: var(--gold);
+            color: var(--bg-dark);
+            padding: 15px 10px;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            font-weight: 700;
+            letter-spacing: 3px;
+            border-radius: 8px 0 0 8px;
+            cursor: pointer;
+            z-index: 100;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.3s;
+            box-shadow: -5px 0 20px rgba(197, 160, 89, 0.3);
+        }
+        .side-menu-btn:hover {
+            padding-right: 20px;
+            background: var(--gold-light);
+            color: var(--bg-dark);
+        }
+        .side-menu-btn i { transform: rotate(90deg); width: 20px; height: 20px;}
+
+        /* --- Hero Section (Khatarnak Animation) --- */
+        .hero {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Parallax Background */
+        .hero-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
+            transform: scale(1.1);
+            animation: zoomOut 15s ease-in-out infinite alternate;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(10,15,12,0.7), rgba(10,15,12,0.9));
+        }
+
+        @keyframes zoomOut {
+            0% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideUpFade 1.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes slideUpFade {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-content h1 {
+            font-size: clamp(3rem, 7vw, 7rem);
+            line-height: 1.1;
+            color: var(--gold);
+            text-shadow: 2px 2px 20px rgba(0,0,0,0.8);
+            margin-bottom: 20px;
+        }
+
+        .hero-content p {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--text-light);
+        }
+
+        /* --- Scroll Reveal Sections --- */
+        .section {
+            padding: 120px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 3.5rem;
+            color: var(--gold);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-size: 12px;
+            margin-bottom: 60px;
+        }
+
+        /* About Us */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-img-wrapper {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            height: 500px;
+        }
+
+        .about-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+
+        .about-img-wrapper:hover img {
+            transform: scale(1.05);
+        }
+
+        .about-text p {
+            color: var(--text-muted);
+            line-height: 1.8;
+            font-size: 1.05rem;
+            margin-bottom: 25px;
+        }
+
+        .about-text h3 {
+            font-size: 2.5rem;
+            color: var(--gold-light);
+            margin-bottom: 20px;
+        }
+
+        /* Image Gallery (Masonry style) */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .gallery-item {
+            border-radius: 8px;
+            overflow: hidden;
+            height: 300px;
+        }
+        .gallery-item:nth-child(2) { margin-top: 40px; }
+        .gallery-item:nth-child(3) { margin-top: -20px; }
+        .gallery-item:nth-child(4) { margin-top: 20px; }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.5s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+            filter: brightness(0.7);
+        }
+
+        /* JS Scroll Animation Class */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px;
+            border-top: 1px solid rgba(197, 160, 89, 0.2);
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        @media (max-width: 850px) {
+            .about-grid { grid-template-columns: 1fr; }
+            .about-img-wrapper { height: 300px; }
+            .gallery { grid-template-columns: 1fr 1fr; }
+            .gallery-item:nth-child(n) { margin-top: 0; height: 200px; }
+            .side-menu-btn { top: auto; bottom: 30px; right: 30px; writing-mode: horizontal-tb; padding: 15px 25px; border-radius: 50px; }
+            .side-menu-btn i { transform: rotate(0deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Side Menu Button -->
+    <a href="menu.html" class="side-menu-btn">
+        <i data-lucide="utensils"></i> EXPLORE MENU
+    </a>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <a href="index.html" class="logo">SAFFRON <span>KITCHEN</span></a>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>Flavours Crafted<br>with Passion</h1>
+            <p>Experience the finest Malabar & Continental cuisine</p>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section class="section">
+        <div class="reveal">
+            <h2 class="section-title">Our Story</h2>
+            <p class="section-subtitle">A Legacy of Taste</p>
+        </div>
+        
+        <div class="about-grid reveal">
+            <div class="about-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Restaurant Interior">
+            </div>
+            <div class="about-text">
+                <h3>Where Tradition Meets Luxury</h3>
+                <p>At Saffron Kitchen, we believe that dining is not just about food; it's an experience. Nestled in the heart of the city, our restaurant offers a sanctuary of elegance and warmth.</p>
+                <p>Our chefs blend traditional Malabar spices with modern culinary techniques to create dishes that tantalize your taste buds. Every plate is a masterpiece, crafted with the finest local ingredients and a whole lot of passion.</p>
+                <p>Join us for an unforgettable journey of flavours, where impeccable service meets a luxurious ambiance.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="section" style="background: var(--bg-card); max-width: 100%;">
+        <div style="max-width: 1400px; margin: 0 auto;">
+            <div class="reveal">
+                <h2 class="section-title">The Ambience</h2>
+                <p class="section-subtitle">Step Into Our World</p>
+            </div>
+            
+            <div class="gallery reveal">
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=500&q=80" alt="Dining"></div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=500&q=80" alt="Food"></div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=500&q=80" alt="Table"></div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=500&q=80" alt="Chef"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2023 Saffron Kitchen. Flavours Crafted with Passion.</p>
+    </footer>
+
+    <script>
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Scroll Reveal Animation Logic
+        const revealElements = document.querySelectorAll('.reveal');
+
+        const revealOnScroll = () => {
+            const windowHeight = window.innerHeight;
+            const elementVisible = 100;
+
+            revealElements.forEach((reveal) => {
+                const elementTop = reveal.getBoundingClientRect().top;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveal.classList.add('active');
+                }
+            });
+        };
+
+        window.addEventListener('scroll', revealOnScroll);
+        // Trigger once on load
+        revealOnScroll();
+        
+        lucide.createIcons();
+    </script>
+</body>
+</html>
