@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Menu | Saffron Kitchen</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        /* --- Royal Menu Theme --- */
+        :root {
+            --bg-body: #f4f5f0; /* Soft classic ivory background for menu */
+            --bg-card: #ffffff;
+            --text-main: #1a1a1a;
+            --text-muted: #5a5a5a;
+            --emerald: #051a12;
+            --gold: #b58d22;
+            --gold-light: #d4af37;
+            --border-color: #e0e0e0;
+            --success: #1aab2a;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            overflow-x: hidden;
+            width: 100%;
+            height: 100vh;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        h1, h2, h3, h4 { font-family: 'Cinzel', serif; }
+
+        /* --- App Header --- */
+        .app-header {
+            background: var(--emerald);
+            color: white;
+            padding: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            border-bottom: 2px solid var(--gold);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .app-top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--gold-light);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+        .back-btn:hover { color: white; }
+
+        .app-brand { text-align: center; }
+        .app-brand h2 { font-size: 20px; color: var(--gold-light); margin-bottom: 2px; line-height: 1; letter-spacing: 2px;}
+        .app-brand p { font-size: 10px; letter-spacing: 4px; color: #ddd; font-family: 'Lato', sans-serif;}
+
+        .search-container { position: relative; width: 100%; max-width: 1200px; margin: 0 auto; }
+        .search-container input {
+            width: 100%; padding: 12px 15px 12px 40px; border-radius: 4px; border: 1px solid rgba(212, 175, 55, 0.3); outline: none;
+            font-size: 14px; background: rgba(255,255,255,0.1); color: white; transition: 0.3s;
+        }
+        .search-container input::placeholder { color: rgba(255,255,255,0.5); }
+        .search-container input:focus { background: white; color: var(--text-main); border-color: var(--gold); }
+        .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--gold-light); width: 18px; }
+
+        /* --- App Layout --- */
+        .app-main-layout {
+            display: flex;
+            gap: 25px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: flex-start;
+        }
+
+        .app-sidebar {
+            width: 230px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            position: sticky;
+            top: 120px; 
+            max-height: calc(100vh - 140px);
+            overflow-y: auto;
+            flex-shrink: 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+        }
+
+        .app-sidebar-title {
+            padding: 15px; font-family: 'Cinzel', serif; font-size: 16px;
+            color: var(--emerald); border-bottom: 1px solid var(--border-color); background: #f9f9f9;
+            position: sticky; top: 0; font-weight: 700; text-align: center;
+        }
+
+        .app-sidebar-list { list-style: none; }
+        .app-sidebar-item {
+            padding: 15px 20px; font-size: 13px; font-weight: 700; color: var(--text-muted);
+            cursor: pointer; border-left: 3px solid transparent; transition: 0.2s;
+            display: flex; align-items: center; gap: 10px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .app-sidebar-item i { width: 16px; height: 16px; }
+        .app-sidebar-item:hover { background: #f4f5f0; color: var(--text-main); }
+        .app-sidebar-item.active { border-left-color: var(--gold); background: #fffbf0; color: var(--gold); font-weight: 800; }
+
+        .app-content { flex-grow: 1; min-width: 0; }
+        
+        .app-section-title { font-family: 'Cinzel', serif; font-size: 24px; color: var(--emerald); margin-bottom: 20px; font-weight: 700; border-bottom: 1px solid var(--gold); padding-bottom: 10px; display: inline-block;}
+
+        .app-food-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+
+        .app-card {
+            background: var(--bg-card); border-radius: 4px; overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04); border: 1px solid var(--border-color);
+            transition: transform 0.3s, box-shadow 0.3s; cursor: pointer; display: flex; flex-direction: column;
+        }
+        .app-card:hover { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0,0,0,0.08); border-color: var(--gold-light); }
+
+        .app-card-img { position: relative; height: 180px; width: 100%; background: #eee; border-bottom: 2px solid var(--gold-light); }
+        .app-card-img img { width: 100%; height: 100%; object-fit: cover; }
+
+        .veg-badge { position: absolute; top: 10px; right: 10px; background: white; padding: 3px; border-radius: 2px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);}
+        .veg-badge .square { width: 10px; height: 10px; border: 1.5px solid var(--success); display: flex; justify-content: center; align-items: center; }
+        .veg-badge .square.non-veg { border-color: #d32f2f; }
+        .veg-badge .circle { width: 4px; height: 4px; background: var(--success); border-radius: 50%; }
+        .veg-badge .circle.non-veg { background: #d32f2f; }
+
+        .app-card-info { padding: 15px; display: flex; flex-direction: column; flex-grow: 1; }
+        .app-title-price { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; gap: 10px; border-bottom: 1px dotted #ccc; padding-bottom: 8px;}
+        .app-title-price h3 { font-size: 15px; font-weight: 700; color: var(--emerald); line-height: 1.3; font-family: 'Cinzel', serif;}
+        .app-price { font-size: 16px; font-weight: 700; color: var(--gold); font-family: 'Cinzel', serif;}
+        .app-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 10px; flex-grow: 1; line-height: 1.5; }
+        
+        .app-card-bottom { padding-top: 5px; }
+        .app-time { font-size: 11px; font-weight: 700; color: var(--success); display: flex; align-items: center; gap: 5px; }
+
+        /* =========================================
+           SKELETON LOADING ANIMATION
+           ========================================= */
+        .skeleton { background: #e0e0e0; position: relative; overflow: hidden; border-radius: 2px; }
+        .skeleton::after { content: ""; position: absolute; top: 0; right: 0; bottom: 0; left: 0; transform: translateX(-100%); background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent); animation: shimmer 1.5s infinite; }
+        @keyframes shimmer { 100% { transform: translateX(100%); } }
+
+        .skeleton-card { background: var(--bg-card); border: 1px solid var(--border-color); overflow: hidden; height: 320px; display: flex; flex-direction: column; }
+        .skeleton-img { height: 180px; width: 100%; }
+        .skeleton-info { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; gap: 12px;}
+        .skeleton-title { height: 20px; width: 80%; }
+        .skeleton-price { height: 20px; width: 40%; }
+        .skeleton-desc { height: 14px; width: 100%; }
+        .skeleton-desc.short { width: 70%; }
+
+        .app-food-grid { display: none; }
+        .app-food-grid.loaded { display: grid; }
+        .skeleton-sidebar { padding: 15px; display: flex; flex-direction: column; gap: 15px; }
+
+        /* --- Modal --- */
+        .app-modal {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(5, 26, 18, 0.85); backdrop-filter: blur(4px);
+            display: none; justify-content: center; align-items: center; z-index: 1000; padding: 20px;
+        }
+        .app-modal-content {
+            background: var(--bg-card); width: 100%; max-width: 400px; 
+            padding: 25px; max-height: 90vh; overflow-y: auto; position: relative;
+            border: 1px solid var(--gold); border-top: 5px solid var(--gold);
+            animation: scaleUp 0.3s ease-out; text-align: center;
+        }
+        @keyframes scaleUp { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        
+        .app-modal-close { position: absolute; top: 10px; right: 10px; background: transparent; border: none; cursor: pointer; color: var(--emerald); }
+        .app-modal-img { width: 100%; height: 220px; object-fit: cover; margin-bottom: 20px; border: 1px solid #eee; }
+        .app-modal-title { font-size: 24px; font-weight: 700; margin-bottom: 10px; color: var(--emerald); }
+        .app-modal-price { font-size: 22px; font-weight: 700; color: var(--gold); margin-bottom: 20px; }
+        .app-modal-desc { background: #f9f9f9; padding: 15px; font-size: 14px; color: var(--text-muted); line-height: 1.6; border-left: 3px solid var(--gold); text-align: left;}
+
+        /* Responsive */
+        @media (max-width: 850px) {
+            .app-main-layout { flex-direction: column; padding: 15px; gap: 15px; }
+            .app-sidebar { width: 100%; position: static; max-height: none; border-radius: 0; padding-bottom: 0; overflow: visible; }
+            .app-sidebar-title { display: none; }
+            .app-sidebar-list { display: flex; overflow-x: auto; scrollbar-width: none; padding: 0; gap: 0; border-bottom: 1px solid var(--gold); }
+            .app-sidebar-list::-webkit-scrollbar { display: none; }
+            .app-sidebar-item { white-space: nowrap; padding: 12px 15px; border: none; border-bottom: 2px solid transparent; font-size: 12px; }
+            .app-sidebar-item.active { border-bottom-color: var(--emerald); background: transparent; color: var(--emerald); }
+
+            .app-food-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
+            .app-card-img { height: 130px; }
+            .app-title-price { flex-direction: column; gap: 4px; }
+            .app-title-price h3 { font-size: 13px; }
+            .app-price { font-size: 14px; }
+            .app-desc { display: none; }
+            
+            .skeleton-card { height: 260px; }
+            .skeleton-img { height: 130px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app-page">
+        
+        <header class="app-header">
+            <div class="app-top-row">
+                <a href="index.html" class="back-btn">
+                    <i data-lucide="arrow-left"></i> Back
+                </a>
+                <div class="app-brand">
+                    <h2>SAFFRON</h2>
+                    <p>KITCHEN</p>
+                </div>
+                <div style="width: 60px;"></div>
+            </div>
+
+            <div class="search-container">
+                <i data-lucide="search" class="search-icon"></i>
+                <input type="text" id="searchInput" placeholder="Search menu..." onkeyup="searchFood()">
+            </div>
+        </header>
+
+        <div class="app-main-layout">
+            
+            <aside class="app-sidebar" id="sidebar">
+                <div id="sidebarSkeleton" class="skeleton-sidebar">
+                    <div class="skeleton skeleton-title" style="width: 100%; height: 20px; margin-bottom: 10px;"></div>
+                    <div class="skeleton skeleton-desc" style="height: 30px; margin-bottom: 8px;"></div>
+                    <div class="skeleton skeleton-desc" style="height: 30px; margin-bottom: 8px;"></div>
+                </div>
+
+                <div id="actualSidebar" style="display: none;">
+                    <div class="app-sidebar-title">Categories</div>
+                    <ul class="app-sidebar-list" id="categoryList">
+                        <li class="app-sidebar-item active" onclick="filterCategory('all', this)">All Items</li>
+                        <li class="app-sidebar-item" onclick="filterCategory('breakfast', this)">Breakfast</li>
+                        <li class="app-sidebar-item" onclick="filterCategory('lunch', this)">Lunch & Specials</li>
+                        <li class="app-sidebar-item" onclick="filterCategory('dinner', this)">Dinner</li>
+                        <li class="app-sidebar-item" onclick="filterCategory('beverages', this)">Hot Beverages</li>
+                        <li class="app-sidebar-item" onclick="filterCategory('juices', this)">Juices</li>
+                        <li class="app-sidebar-item" onclick="filterCategory('mojito', this)">Mojito & Lime</li>
+                        <li class="app-sidebar-item" onclick="filterCategory('shakes', this)">Shakes & Smoothies</li>
+                    </ul>
+                </div>
+            </aside>
+
+            <main class="app-content">
+                <div class="app-section-title" id="sectionHeading">Loading Menu...</div>
+                
+                <div class="app-food-grid" id="skeletonGrid" style="display: grid;">
+                    <div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton-info"><div class="skeleton skeleton-title"></div><div class="skeleton skeleton-price"></div><div class="skeleton skeleton-desc"></div><div class="skeleton skeleton-desc short"></div></div></div>
+                    <div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton-info"><div class="skeleton skeleton-title"></div><div class="skeleton skeleton-price"></div><div class="skeleton skeleton-desc"></div><div class="skeleton skeleton-desc short"></div></div></div>
+                    <div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton-info"><div class="skeleton skeleton-title"></div><div class="skeleton skeleton-price"></div><div class="skeleton skeleton-desc"></div><div class="skeleton skeleton-desc short"></div></div></div>
+                    <div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton-info"><div class="skeleton skeleton-title"></div><div class="skeleton skeleton-price"></div><div class="skeleton skeleton-desc"></div><div class="skeleton skeleton-desc short"></div></div></div>
+                </div>
+
+                <div class="app-food-grid" id="foodGrid"></div>
+            </main>
+        </div>
+
+        <div class="app-modal" id="foodModal">
+            <div class="app-modal-content">
+                <button class="app-modal-close" onclick="closeModal()"><i data-lucide="x"></i></button>
+                <img id="modalImg" class="app-modal-img" src="" alt="Food" onerror="this.src='https://via.placeholder.com/400x220?text=Image+Missing'">
+                <h2 class="app-modal-title" id="modalTitle">Dish</h2>
+                <div class="app-modal-price" id="modalPrice">₹0</div>
+                <div class="app-modal-desc" id="modalDesc">Description</div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- FOOD DATA WITH EXACT MATCHING EXTENSIONS FROM SCREENSHOT ---
+        const menuData = [
+            // Beverages
+            { id: 1, name: "Black Coffee", price: 12, cat: "beverages", desc: "Strong and pure black coffee.", img: "Assets/images/foods/black-coffee.png", veg: true },
+            { id: 2, name: "Black Tea", price: 12, cat: "beverages", desc: "Classic refreshing black tea.", img: "Assets/images/foods/black-tea.png", veg: true },
+            { id: 3, name: "Boost", price: 25, cat: "beverages", desc: "Malted chocolate health drink.", img: "Assets/images/foods/boost.png", veg: true },
+            { id: 4, name: "Coffee", price: 20, cat: "beverages", desc: "Freshly brewed hot coffee.", img: "Assets/images/foods/coffee.png", veg: true },
+            { id: 5, name: "Ginger Milk Tea", price: 20, cat: "beverages", desc: "Tea infused with fresh ginger.", img: "Assets/images/foods/ginger-milk-tea.jpg", veg: true },
+            { id: 6, name: "Ginger Tea", price: 15, cat: "beverages", desc: "Refreshing ginger infused tea.", img: "Assets/images/foods/ginger-tea.jpg", veg: true },
+            { id: 7, name: "Horlicks", price: 25, cat: "beverages", desc: "Classic malted milk drink.", img: "Assets/images/foods/horlicks.jpg", veg: true },
+            { id: 8, name: "Lemon Tea", price: 15, cat: "beverages", desc: "Tangy and refreshing lemon tea.", img: "Assets/images/foods/lemon-tea.jpg", veg: true },
+            { id: 9, name: "Masala Tea", price: 20, cat: "beverages", desc: "Traditional Indian spiced tea.", img: "Assets/images/foods/masala-tea.jpg", veg: true },
+            { id: 10, name: "Milk", price: 20, cat: "beverages", desc: "Fresh hot milk.", img: "Assets/images/foods/milk.jpg", veg: true },
+            { id: 11, name: "Mint Tea", price: 15, cat: "beverages", desc: "Soothing fresh mint leaves tea.", img: "Assets/images/foods/mint-tea.jpg", veg: true },
+            { id: 12, name: "Tea", price: 15, cat: "beverages", desc: "Regular hot milk tea.", img: "Assets/images/foods/tea.jpg", veg: true },
+            
+            // Juices
+            { id: 13, name: "Avocado Juice", price: 80, cat: "juices", desc: "Rich and creamy avocado blend.", img: "Assets/images/foods/avocado.jpg", veg: true },
+            { id: 14, name: "Chikoo Juice", price: 90, cat: "juices", desc: "Sweet sapota fruit juice.", img: "Assets/images/foods/chikoo.jpg", veg: true },
+            { id: 15, name: "Cucumber Juice", price: 50, cat: "juices", desc: "Cooling and hydrating cucumber juice.", img: "Assets/images/foods/cucumber.jpg", veg: true },
+            { id: 16, name: "Dragon Fruit Juice", price: 120, cat: "juices", desc: "Exotic and refreshing dragon fruit.", img: "Assets/images/foods/dragon-fruit.jpg", veg: true },
+            { id: 17, name: "Green Apple Juice", price: 120, cat: "juices", desc: "Tangy and crisp green apple.", img: "Assets/images/foods/green-apple.jpg", veg: true },
+            { id: 18, name: "Orange Juice", price: 70, cat: "juices", desc: "Freshly squeezed oranges.", img: "Assets/images/foods/orange.jpg", veg: true },
+            { id: 19, name: "Papaya Juice", price: 80, cat: "juices", desc: "Healthy ripe papaya blend.", img: "Assets/images/foods/papaya.webp", veg: true },
+            { id: 20, name: "Pineapple Juice", price: 70, cat: "juices", desc: "Sweet and tart pineapple juice.", img: "Assets/images/foods/pineapple.jpg", veg: true },
+            { id: 21, name: "Pomegranate Juice", price: 120, cat: "juices", desc: "Premium antioxidant-rich juice.", img: "Assets/images/foods/pomegranate.jpg", veg: true },
+            { id: 22, name: "Shamam Juice", price: 80, cat: "juices", desc: "Sweet muskmelon juice.", img: "Assets/images/foods/shamam.jpg", veg: true },
+            { id: 23, name: "Watermelon Juice", price: 60, cat: "juices", desc: "Refreshing summer cooler.", img: "Assets/images/foods/watermelon.jpg", veg: true },
+            { id: 24, name: "Fresh Lime", price: 30, cat: "juices", desc: "Classic fresh lime juice.", img: "Assets/images/foods/fresh-lime.jpg", veg: true },
+            { id: 25, name: "Fresh Lime Soda", price: 25, cat: "juices", desc: "Fizzy and refreshing lime soda.", img: "Assets/images/foods/fresh-lime-soda.jpg", veg: true },
+
+            // Lime Specials & Mojito
+            { id: 26, name: "Ginger Lime", price: 40, cat: "mojito", desc: "Zesty lime with a spicy ginger kick.", img: "Assets/images/foods/ginger-lime.jpg", veg: true },
+            { id: 27, name: "Mango Chilly Lime", price: 50, cat: "mojito", desc: "Sweet mango with a hint of chilli and lime.", img: "Assets/images/foods/mango-chilly-lime.jpg", veg: true },
+            { id: 28, name: "Mint Lime", price: 30, cat: "mojito", desc: "Classic mint and lime cooler.", img: "Assets/images/foods/mint-lime.jpg", veg: true },
+            { id: 29, name: "Orange Soda Lime", price: 50, cat: "mojito", desc: "Orange twist with fizzy lime soda.", img: "Assets/images/foods/orange-soda-lime.jpg", veg: true },
+            { id: 30, name: "Soda Lime Salt", price: 20, cat: "mojito", desc: "Salty and fizzy lime soda.", img: "Assets/images/foods/soda-lime-salt.jpg", veg: true },
+            { id: 31, name: "Watermelon Lime", price: 40, cat: "mojito", desc: "Watermelon chunks with lime.", img: "Assets/images/foods/watermelon-lime.jpg", veg: true },
+            { id: 32, name: "Barisco", price: 70, cat: "mojito", desc: "Signature Barisco mocktail.", img: "Assets/images/foods/barisco.jpg", veg: true },
+            { id: 33, name: "Blue Currant", price: 60, cat: "mojito", desc: "Sweet blue currant mojito.", img: "Assets/images/foods/blue-currant.jpg", veg: true },
+            { id: 34, name: "Blueberry Mojito", price: 60, cat: "mojito", desc: "Fresh blueberry muddled with mint.", img: "Assets/images/foods/blueberry-mojito.png", veg: true },
+            { id: 35, name: "Green Apple Mojito", price: 60, cat: "mojito", desc: "Crisp green apple and mint.", img: "Assets/images/foods/green-apple-mojito.png", veg: true },
+            { id: 36, name: "Mango Mojito", price: 60, cat: "mojito", desc: "Tropical mango and mint blend.", img: "Assets/images/foods/mango.jpg", veg: true }, 
+            { id: 37, name: "Mint Mojito", price: 60, cat: "mojito", desc: "Ultimate refreshing mint cooler.", img: "Assets/images/foods/mint.jpg", veg: true }, 
+            { id: 38, name: "Passion Fruit Mojito", price: 60, cat: "mojito", desc: "Exotic passion fruit twist.", img: "Assets/images/foods/passion-fruit.jpg", veg: true },
+            { id: 39, name: "Watermelon Mojito", price: 60, cat: "mojito", desc: "Summer special watermelon crush.", img: "Assets/images/foods/watermelon-mojito-3.jpg", veg: true },
+
+            // Shakes & Smoothies
+            { id: 40, name: "Avocado Shake", price: 120, cat: "shakes", desc: "Thick and creamy avocado shake.", img: "Assets/images/foods/avocado-shake.jpg", veg: true },
+            { id: 41, name: "Avil Milk", price: 80, cat: "shakes", desc: "Traditional Malabar Avil Milk.", img: "Assets/images/foods/avil-milk.jpg", veg: true },
+            { id: 42, name: "Butterscotch Shake", price: 80, cat: "shakes", desc: "Sweet butterscotch milkshake.", img: "Assets/images/foods/butterscotch.jpg", veg: true },
+            { id: 43, name: "Chocolate Shake", price: 80, cat: "shakes", desc: "Rich chocolate milkshake.", img: "Assets/images/foods/chocolate.jpg", veg: true },
+            { id: 44, name: "Oman Dates Shake", price: 100, cat: "shakes", desc: "Premium Omani dates blended with milk.", img: "Assets/images/foods/oman-dates-shake.jpg", veg: true },
+            { id: 45, name: "Sharjah Shake", price: 80, cat: "shakes", desc: "Famous Sharjah banana shake.", img: "Assets/images/foods/sharjah.jpg", veg: true },
+            { id: 46, name: "Strawberry Shake", price: 80, cat: "shakes", desc: "Fresh strawberry milkshake.", img: "Assets/images/foods/strawberry.jpg", veg: true },
+            { id: 47, name: "Tender Coconut Shake", price: 120, cat: "shakes", desc: "Natural tender coconut blend.", img: "Assets/images/foods/tender-coconut.jpg", veg: true },
+            { id: 48, name: "Vanilla Shake", price: 80, cat: "shakes", desc: "Classic vanilla milkshake.", img: "Assets/images/foods/vanilla.jpg", veg: true },
+            { id: 49, name: "Blueberry Smoothie", price: 60, cat: "shakes", desc: "Healthy blueberry smoothie.", img: "Assets/images/foods/blueberry-mojito.png", veg: true },
+            { id: 50, name: "Green Apple Smoothie", price: 60, cat: "shakes", desc: "Refreshing green apple blend.", img: "Assets/images/foods/green-apple.jpg", veg: true },
+            { id: 51, name: "Mango Smoothie", price: 60, cat: "shakes", desc: "Tropical mango smoothie.", img: "Assets/images/foods/mango.jpg", veg: true },
+
+            // Breakfast
+            { id: 52, name: "Appam", price: 15, cat: "breakfast", desc: "Lacy fermented rice pancake.", img: "Assets/images/foods/appam.png", veg: true },
+            { id: 53, name: "Chapathi", price: 12, cat: "breakfast", desc: "Soft whole wheat flatbread.", img: "Assets/images/foods/chapathi.png", veg: true },
+            { id: 54, name: "Idiyappam", price: 15, cat: "breakfast", desc: "Steamed string hoppers.", img: "Assets/images/foods/idiyappam.png", veg: true },
+            { id: 55, name: "Porotta", price: 15, cat: "breakfast", desc: "Flaky layered flatbread.", img: "Assets/images/foods/porotta.png", veg: true },
+            { id: 56, name: "Puttu", price: 40, cat: "breakfast", desc: "Steamed cylindrical rice cake.", img: "Assets/images/foods/puttu.png", veg: true },
+            { id: 57, name: "Kadala Curry", price: 40, cat: "breakfast", desc: "Spiced black chickpea curry.", img: "Assets/images/foods/kadala-curry.png", veg: true },
+            { id: 58, name: "Egg Curry", price: 40, cat: "breakfast", desc: "Boiled eggs in rich onion gravy.", img: "Assets/images/foods/egg-curry.png", veg: false },
+
+            // Lunch
+            { id: 59, name: "Ilayil Oonu", price: 90, cat: "lunch", desc: "Traditional meal served on banana leaf.", img: "Assets/images/foods/ilayil-oonu.png", veg: true },
+            { id: 60, name: "Fish Curry Meals", price: 150, cat: "lunch", desc: "Kerala fish curry with rice & sides.", img: "Assets/images/foods/fish-curry-meals.png", veg: false },
+            { id: 61, name: "Chicken Biryani", price: 180, cat: "lunch", desc: "Authentic Malabar chicken biryani.", img: "Assets/images/foods/chicken-biryani.png", veg: false },
+            { id: 62, name: "Egg Biryani", price: 120, cat: "lunch", desc: "Fragrant rice with spiced eggs.", img: "Assets/images/foods/egg-biryani.png", veg: false },
+            { id: 63, name: "Fish Curry", price: 140, cat: "lunch", desc: "Spicy and tangy fish curry.", img: "Assets/images/foods/fish-curry.png", veg: false },
+            { id: 64, name: "Chicken Varutharacha Curry", price: 180, cat: "lunch", desc: "Roasted coconut chicken curry.", img: "Assets/images/foods/chicken-varutharacha-curry.png", veg: false },
+            { id: 65, name: "Beef Roast", price: 170, cat: "lunch", desc: "Slow-cooked beef pan-fried.", img: "Assets/images/foods/beef-roast.png", veg: false },
+            { id: 66, name: "Beef Fry", price: 180, cat: "lunch", desc: "Spicy and dry beef fry.", img: "Assets/images/foods/beef-fry.png", veg: false },
+            { id: 67, name: "Veg Kuruma", price: 40, cat: "lunch", desc: "Mixed vegetables in coconut gravy.", img: "Assets/images/foods/veg-kuruma.png", veg: true },
+            { id: 68, name: "Pepper Chicken Roast", price: 180, cat: "lunch", desc: "Chicken roasted with black pepper.", img: "Assets/images/foods/pepper-chicken-roast.png", veg: false },
+            { id: 69, name: "Chicken 65", price: 180, cat: "lunch", desc: "Spicy deep-fried chicken.", img: "Assets/images/foods/chicken-65.png", veg: false },
+
+            // Dinner
+            { id: 70, name: "Chicken Fried Rice", price: 170, cat: "dinner", desc: "Wok-tossed chicken fried rice.", img: "Assets/images/foods/chicken-fried-rice.png", veg: false },
+            { id: 71, name: "Egg Fried Rice", price: 150, cat: "dinner", desc: "Classic egg fried rice.", img: "Assets/images/foods/egg-fried-rice.png", veg: false },
+            { id: 72, name: "Veg Fried Rice", price: 140, cat: "dinner", desc: "Healthy mix vegetable fried rice.", img: "Assets/images/foods/veg-fried-rice.png", veg: true },
+            { id: 73, name: "Ghee Rice", price: 100, cat: "dinner", desc: "Aromatic rice cooked in pure ghee.", img: "Assets/images/foods/ghee-rice.png", veg: true }
+        ];
+
+        const foodGrid = document.getElementById('foodGrid');
+        const skeletonGrid = document.getElementById('skeletonGrid');
+        const sidebarSkeleton = document.getElementById('sidebarSkeleton');
+        const actualSidebar = document.getElementById('actualSidebar');
+        const sectionHeading = document.getElementById('sectionHeading');
+        const fallbackImg = "https://via.placeholder.com/400x220?text=Image+Missing";
+
+        // --- SKELETON LOADING LOGIC ---
+        setTimeout(() => {
+            skeletonGrid.style.display = 'none';
+            sidebarSkeleton.style.display = 'none';
+            
+            actualSidebar.style.display = 'block';
+            foodGrid.classList.add('loaded');
+            sectionHeading.innerText = "All Food Items";
+
+            renderMenu(menuData);
+        }, 1500);
+
+        function renderMenu(items) {
+            foodGrid.innerHTML = '';
+            if(items.length === 0) {
+                foodGrid.innerHTML = `<div style="text-align:center; padding: 50px; width:100%; grid-column: 1/-1; color: var(--text-muted);"><h3>No dishes found</h3></div>`;
+                return;
+            }
+            
+            items.forEach(item => {
+                const vegHtml = item.veg 
+                    ? `<div class="square"><div class="circle"></div></div>` 
+                    : `<div class="square non-veg"><div class="circle non-veg"></div></div>`;
+                
+                const card = `
+                    <div class="app-card" onclick="openModal('${item.name}', '₹${item.price}', '${item.desc}', '${item.img}')">
+                        <div class="app-card-img">
+                            <img src="${item.img}" alt="${item.name}" loading="lazy" onerror="this.onerror=null; this.src='${fallbackImg}';">
+                            <div class="veg-badge">${vegHtml}</div>
+                        </div>
+                        <div class="app-card-info">
+                            <div class="app-title-price">
+                                <h3>${item.name}</h3>
+                                <span class="app-price">₹${item.price}</span>
+                            </div>
+                            <p class="app-desc">${item.desc}</p>
+                            <div class="app-card-bottom">
+                                <span class="app-time"><i data-lucide="check-circle-2" style="width: 14px;"></i> Available</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                foodGrid.innerHTML += card;
+            });
+            lucide.createIcons();
+        }
+
+        // --- Search & Filter Logic ---
+        let currentCategory = 'all';
+
+        function filterCategory(category, element) {
+            document.querySelectorAll('.app-sidebar-item').forEach(item => item.classList.remove('active'));
+            element.classList.add('active');
+            currentCategory = category;
+            document.getElementById('searchInput').value = '';
+            applyFilters();
+        }
+
+        function searchFood() {
+            applyFilters();
+        }
+
+        function applyFilters() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+
+            const filtered = menuData.filter(item => {
+                const matchesCategory = (currentCategory === 'all' || item.cat === currentCategory);
+                const matchesSearch = item.name.toLowerCase().includes(query) || item.desc.toLowerCase().includes(query);
+                return matchesCategory && matchesSearch;
+            });
+
+            if(query.length > 0) {
+                sectionHeading.innerText = `Search Results for "${query}"`;
+            } else if(currentCategory === 'all') {
+                sectionHeading.innerText = "All Food Items";
+            } else {
+                sectionHeading.innerText = currentCategory.charAt(0).toUpperCase() + currentCategory.slice(1) + " Menu";
+            }
+
+            renderMenu(filtered);
+        }
+
+        // --- Modal Logic ---
+        const modal = document.getElementById('foodModal');
+        
+        function openModal(title, price, desc, imgSrc) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalPrice').innerText = price;
+            document.getElementById('modalDesc').innerText = desc;
+            
+            const modalImg = document.getElementById('modalImg');
+            modalImg.src = imgSrc;
+            modalImg.onerror = function() {
+                this.onerror=null; 
+                this.src=fallbackImg;
+            };
+
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        modal.addEventListener('click', (e) => {
+            if(e.target === modal) closeModal();
+        });
+
+        lucide.createIcons();
+    </script>
+</body>
+</html>
