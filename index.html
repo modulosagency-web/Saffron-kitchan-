@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saffron Kitchen | Luxury Hotel & Dining</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        /* --- Royal Theme Variables --- */
+        :root {
+            --bg-emerald: #051a12; /* Deep Royal Green */
+            --bg-card: #0a261b;
+            --gold: #d4af37; 
+            --gold-gradient: linear-gradient(135deg, #d4af37 0%, #f5e18f 50%, #b58d22 100%);
+            --text-light: #f9f9f9;
+            --text-muted: #a3b3ab;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--bg-emerald);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, .brand-font {
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+        }
+
+        /* --- Navigation --- */
+        nav {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: all 0.4s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(5, 26, 18, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 10px 5%;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .logo-container img {
+            height: 70px; /* Adjust based on your logo's size */
+            width: auto;
+            transition: 0.3s;
+        }
+        
+        nav.scrolled .logo-container img {
+            height: 50px; /* Shrinks slightly on scroll */
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        .nav-menu-btn {
+            background: var(--gold-gradient);
+            color: var(--bg-emerald);
+            padding: 12px 25px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+        }
+
+        .nav-menu-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        /* --- Hero Section (No Background Image) --- */
+        .hero {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: radial-gradient(circle at center, #0a261b 0%, #051a12 100%);
+            overflow: hidden;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        /* Subtle classic pattern overlay */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: repeating-linear-gradient(45deg, rgba(212, 175, 55, 0.03) 0px, rgba(212, 175, 55, 0.03) 1px, transparent 1px, transparent 20px);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            padding: 0 20px;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideUpFade 1.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+        }
+
+        @keyframes slideUpFade {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Big Logo in Hero */
+        .hero-logo {
+            max-width: 350px;
+            width: 100%;
+            margin-bottom: 30px;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+        }
+
+        .hero-content h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            line-height: 1.2;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            line-height: 1.6;
+            max-width: 700px;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            background: transparent;
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            padding: 15px 35px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: 0.4s;
+            margin: 0 10px;
+        }
+
+        .btn-primary:hover {
+            background: var(--gold);
+            color: var(--bg-emerald);
+        }
+
+        /* --- Section Layout --- */
+        .section {
+            padding: 120px 5%;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 70px;
+        }
+
+        .section-header h2 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .section-header .divider {
+            width: 80px;
+            height: 2px;
+            background: var(--gold-gradient);
+            margin: 0 auto;
+        }
+
+        /* --- Features / Explore Section --- */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 40px 30px;
+            text-align: center;
+            transition: 0.4s;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: block;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--gold);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 25px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 50%;
+            color: var(--gold);
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* --- About Section (Text Only Now) --- */
+        .about-content-center {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .about-content-center p {
+            color: var(--text-muted);
+            line-height: 1.9;
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+        }
+
+        .about-content-center h3 {
+            font-size: 2.2rem;
+            color: var(--gold);
+            margin-bottom: 25px;
+        }
+
+        /* --- Footer --- */
+        footer {
+            background: #030d09;
+            padding: 80px 5% 30px 5%;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            max-width: 1300px;
+            margin: 0 auto 60px auto;
+        }
+
+        .footer-col h4 {
+            color: var(--gold);
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            font-family: 'Cinzel', serif;
+        }
+
+        .footer-col p, .footer-col a {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 2;
+            text-decoration: none;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .footer-col a:hover {
+            color: var(--gold);
+        }
+
+        .footer-logo {
+            height: 80px;
+            margin-bottom: 20px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* --- Animations on Scroll --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 850px) {
+            .nav-links { display: none; } 
+            .hero-content h1 { font-size: 2rem; }
+            .btn-primary { display: block; margin: 10px auto; width: 100%; }
+            .logo-container img { height: 50px; }
+            nav.scrolled .logo-container img { height: 40px; }
+            .hero-logo { max-width: 250px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <a href="index.html" class="logo-container">
+            <!-- ROOT LOGO -->
+            <img src="logo.png" alt="Saffron Kitchen Logo">
+        </a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About Us</a>
+            <a href="feedback.html">Feedback</a>
+        </div>
+        <a href="menu.html" class="nav-menu-btn">
+            <i data-lucide="utensils"></i> View Menu
+        </a>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-content">
+            <!-- BIG LOGO IN HERO -->
+            <img src="logo.png" alt="Saffron Kitchen" class="hero-logo">
+            
+            <h1>Flavours Crafted<br>with Passion</h1>
+            <p>Experience the finest Malabar & Continental cuisine in an ambiance of unparalleled elegance. Step into a world where every detail is designed for your pleasure.</p>
+            <div>
+                <a href="menu.html" class="btn-primary">Explore Menu</a>
+                <a href="#" class="btn-primary" style="border-color: #fff; color: #fff;">Book a Table</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Explore / Features Section -->
+    <section class="section" id="explore">
+        <div class="section-header reveal">
+            <h2>Discover Saffron</h2>
+            <div class="divider"></div>
+        </div>
+        
+        <div class="features-grid reveal">
+            <!-- Link to Menu Page -->
+            <a href="menu.html" class="feature-card">
+                <div class="feature-icon"><i data-lucide="book-open" style="width: 28px; height: 28px;"></i></div>
+                <h3>Our Menu</h3>
+                <p>Explore our extensive collection of authentic dishes, crafted with the finest ingredients and traditional spices.</p>
+            </a>
+
+            <!-- Link to About Page -->
+            <a href="about.html" class="feature-card">
+                <div class="feature-icon"><i data-lucide="info" style="width: 28px; height: 28px;"></i></div>
+                <h3>Our Story</h3>
+                <p>Learn about our heritage, our master chefs, and the passion that goes into every plate we serve.</p>
+            </a>
+
+            <!-- Link to Feedback Page -->
+            <a href="feedback.html" class="feature-card">
+                <div class="feature-icon"><i data-lucide="message-square" style="width: 28px; height: 28px;"></i></div>
+                <h3>Leave Feedback</h3>
+                <p>Your experience matters to us. Share your thoughts and help us continue to deliver excellence.</p>
+            </a>
+        </div>
+    </section>
+
+    <!-- About Brief Section (No Images) -->
+    <section class="section" id="about" style="background: var(--bg-card); max-width: 100%;">
+        <div class="section-header reveal">
+            <h2>A Legacy of Royal Taste</h2>
+            <div class="divider"></div>
+        </div>
+        <div class="about-content-center reveal">
+            <p>At Saffron Kitchen, dining is elevated to an art form. Inspired by the rich culinary traditions of the Malabar coast and the grandeur of classic dining, we offer an experience that transcends the ordinary.</p>
+            <p>Our master chefs curate every dish with meticulous attention to detail, blending rare spices with premium ingredients. Every plate served is a testament to our commitment to excellence and hospitality.</p>
+            <a href="about.html" class="btn-primary" style="margin-top: 20px;">Read Full Story</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <!-- ROOT LOGO IN FOOTER -->
+                <img src="logo.png" alt="Saffron Kitchen" class="footer-logo">
+                <p>Flavours crafted with passion. Experience the finest Malabar & Continental cuisine in a luxurious setting.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <a href="menu.html">Our Menu</a>
+                <a href="about.html">About Us</a>
+                <a href="feedback.html">Customer Feedback</a>
+                <a href="#">Reservations</a>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Us</h4>
+                <p>123 Luxury Avenue, City Center</p>
+                <p>Phone: +91 98765 43210</p>
+                <p>Email: info@saffronkitchen.com</p>
+            </div>
+            <div class="footer-col">
+                <h4>Opening Hours</h4>
+                <p>Mon - Sun: 11:00 AM - 11:00 PM</p>
+                <p>Breakfast: 7:00 AM - 10:30 AM</p>
+                <p>Lunch: 12:00 PM - 3:30 PM</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Saffron Kitchen. All Rights Reserved. Designed for Excellence.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Scroll Reveal Animation
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealOnScroll = () => {
+            const windowHeight = window.innerHeight;
+            const elementVisible = 100;
+            revealElements.forEach((reveal) => {
+                const elementTop = reveal.getBoundingClientRect().top;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveal.classList.add('active');
+                }
+            });
+        };
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll(); // Trigger on load
+
+        // Initialize Icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>
