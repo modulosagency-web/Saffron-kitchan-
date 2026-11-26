@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Menu | Saffron Kitchen</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        :root {
+            --bg-body: #f4f5f0;
+            --bg-card: #ffffff;
+            --text-main: #1a1a1a;
+            --text-muted: #5a5a5a;
+            --emerald: #051a12;
+            --gold: #b58d22;
+            --gold-light: #d4af37;
+            --border-color: #e0e0e0;
+            --success: #1aab2a;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            overflow-x: hidden;
+            width: 100%;
+            height: 100vh;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        h1, h2, h3, h4 { font-family: 'Cinzel', serif; }
+
+        .app-header {
+            background: var(--emerald);
+            color: white;
+            padding: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            border-bottom: 2px solid var(--gold);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .app-top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--gold-light);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+        .back-btn:hover { color: white; }
+
+        .app-brand { text-align: center; }
+        .app-brand h2 { font-size: 20px; color: var(--gold-light); margin-bottom: 2px; line-height: 1; letter-spacing: 2px;}
+        .app-brand p { font-size: 10px; letter-spacing: 4px; color: #ddd; font-family: 'Lato', sans-serif;}
+
+        .search-container { position: relative; width: 100%; max-width: 1200px; margin: 0 auto; }
+        .search-container input {
+            width: 100%; padding: 12px 15px 12px 40px; border-radius: 4px; border: 1px solid rgba(212, 175, 55, 0.3); outline: none;
+            font-size: 14px; background: rgba(255,255,255,0.1); color: white; transition: 0.3s;
+        }
+        .search-container input::placeholder { color: rgba(255,255,255,0.5); }
+        .search-container input:focus { background: white; color: var(--text-main); border-color: var(--gold); }
+        .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--gold-light); width: 18px; }
+
+        .app-main-layout {
+            display: flex;
+            gap: 25px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: flex-start;
+        }
+
+        .app-sidebar {
+            width: 230px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            position: sticky;
+            top: 120px; 
+            max-height: calc(100vh - 140px);
+            overflow-y: auto;
+            flex-shrink: 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+        }
+
+        .app-sidebar-title {
+            padding: 15px; font-family: 'Cinzel', serif; font-size: 16px;
+            color: var(--emerald); border-bottom: 1px solid var(--border-color); background: #f9f9f9;
+            position: sticky; top: 0; font-weight: 700; text-align: center;
+        }
+
+        .app-sidebar-list { list-style: none; }
+        .app-sidebar-item {
+            padding: 15px 20px; font-size: 13px; font-weight: 700; color: var(--text-muted);
+            cursor: pointer; border-left: 3px solid transparent; transition: 0.2s;
+            display: flex; align-items: center; gap: 10px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .app-sidebar-item i { width: 16px; height: 16px; }
+        .app-sidebar-item:hover { background: #f4f5f0; color: var(--text-main); }
+        .app-sidebar-item.active { border-left-color: var(--gold); background: #fffbf0; color: var(--gold); font-weight: 800; }
+
+        .app-content { flex-grow: 1; min-width: 0; }
+        
+        .app-section-title { font-family: 'Cinzel', serif; font-size: 24px; color: var(--emerald); margin-bottom: 20px; font-weight: 700; border-bottom: 1px solid var(--gold); padding-bottom: 10px; display: inline-block;}
+
+        .app-food-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+
+        .app-card {
+            background: var(--bg-card); border-radius: 4px; overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04); border: 1px solid var(--border-color);
+            transition: transform 0.3s, box-shadow 0.3s; cursor: pointer; display: flex; flex-direction: column;
+        }
+        .app-card:hover { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0,0,0,0.08); border-color: var(--gold-light); }
+
+        .app-card-img { position: relative; height: 180px; width: 100%; background: #eee; border-bottom: 2px solid var(--gold-light); }
+        .app-card-img img { width: 100%; height: 100%; object-fit: cover; }
+
+        .veg-badge { position: absolute; top: 10px; right: 10px; background: white; padding: 3px; border-radius: 2px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);}
+        .veg-badge .square { width: 10px; height: 10px; border: 1.5px solid var(--success); display: flex; justify-content: center; align-items: center; }
+        .veg-badge .square.non-veg { border-color: #d32f2f; }
+        .veg-badge .circle { width: 4px; height: 4px; background: var(--success); border-radius: 50%; }
+        .veg-badge .circle.non-veg { background: #d32f2f; }
+
+        .app-card-info { padding: 15px; display: flex; flex-direction: column; flex-grow: 1; }
+        .app-title-price { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; gap: 10px; border-bottom: 1px dotted #ccc; padding-bottom: 8px;}
+        .app-title-price h3 { font-size: 15px; font-weight: 700; color: var(--emerald); line-height: 1.3; font-family: 'Cinzel', serif;}
+        .app-price { font-size: 16px; font-weight: 700; color: var(--gold); font-family: 'Cinzel', serif;}
+        .app-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 10px; flex-grow: 1; line-height: 1.5; }
+        
+        .app-card-bottom { padding-top: 5px; }
+        .app-time { font-size: 11px; font-weight: 700; color: var(--success); display: flex; align-items: center; gap: 5px; }
+
+        .skeleton { background: #e0e0e0; position: relative; overflow: hidden; border-radius: 2px; }
+        .skeleton::after { content: ""; position: absolute; top: 0; right: 0; bottom: 0; left: 0; transform: translateX(-100%); background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent); animation: shimmer 1.5s infinite; }
+        @keyframes shimmer { 100% { transform: translateX(100%); } }
+
+        .skeleton-card { background: var(--bg-card); border: 1px solid var(--border-color); overflow: hidden; height: 320px; display: flex; flex-direction: column; }
+        .skeleton-img { height: 180px; width: 100%; }
+        .skeleton-info { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; gap: 12px;}
+        .skeleton-title { height: 20px; width: 80%; }
+        .skeleton-price { height: 20px; width: 40%; }
+        .skeleton-desc { height: 14px; width: 100%; }
+        .skeleton-desc.short { width: 70%; }
+
+        .app-food-grid { display: none; }
+        .app-food-grid.loaded { display: grid; }
+        .skeleton-sidebar { padding: 15px; display: flex; flex-direction: column; gap: 15px; }
+
+        .app-modal {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(5, 26, 18, 0.85); backdrop-filter: blur(4px);
+            display: none; justify-content: center; align-items: center; z-index: 1000; padding: 20px;
+        }
+        .app-modal-content {
+            background: var(--bg-card); width: 100%; max-width: 400px; 
+            padding: 25px; max-height: 90vh; overflow-y: auto; position: relative;
+            border: 1px solid var(--gold); border-top: 5px solid var(--gold);
+            animation: scaleUp 0.3s ease-out; text-align: center;
+        }
+        @keyframes scaleUp { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        
+        .app-modal-close { position: absolute; top: 10px; right: 10px; background: transparent; border: none; cursor: pointer; color: var(--emerald); }
+        .app-modal-img { width: 100%; height: 220px; object-fit: cover; margin-bottom: 20px; border: 1px solid #eee; }
+        .app-modal-title { font-size: 24px; font-weight: 700; margin-bottom: 10px; color: var(--emerald); }
+        .app-modal-price { font-size: 22px; font-weight: 700; color: var(--gold); margin-bottom: 20px; }
+        .app-modal-desc { background: #f9f9f9; padding: 15px; font-size: 14px; color: var(--text-muted); line-height: 1.6; border-left: 3px solid var(--gold); text-align: left;}
+
+        @media (max-width: 850px) {
+            .app-main-layout { flex-direction: column; padding: 15px; gap: 15px; }
+            .app-sidebar { width: 100%; position: static; max-height: none; border-radius: 0; padding-bottom: 0; overflow: visible; }
+            .app-sidebar-title { display: none; }
+            .app-sidebar-list { display: flex; overflow-x: auto; scrollbar-width: none; padding: 0; gap: 0; border-bottom: 1px solid var(--gold); }
+            .app-sidebar-list::-webkit-scrollbar { display: none; }
+            .app-sidebar-item { white-space: nowrap; padding: 12px 15px; border: none; border-bottom: 2px solid transparent; font-size: 12px; }
+            .app-sidebar-item.active { border-bottom-color: var(--emerald); background: transparent; color: var(--emerald); }
+
+            .app-food-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
+            .app-card-img { height: 130px; }
+            .app-title-price { flex-direction: column; gap: 4px; }
+            .app-title-price h3 { font-size: 13px; }
+            .app-price { font-size: 14px; }
+            .app-desc { display: none; }
+            
+            .skeleton-card { height: 260px; }
+            .skeleton-img { height: 130px; }
+        }
+    </style>
+</head>
+<body>
+    <div id="app-page">
+        <header class="app-header">
+            <div class="app-top-row">
+                <a href="index.html" class="back-btn"><i data-lucide="arrow-left"></i> Back</a>
+                <div class="app-brand"><h2>SAFFRON</h2><p>KITCHEN</p></div>
+                <div style="width: 60px;"></div>
+            </div>
+            <div class="search-container">
+                <i data-lucide="search" class="search-icon"></i>
+                <input type="text" id="searchInput" placeholder="Search menu..." onkeyup="searchFood()">
+            </div>
+        </header>
+
+        <div class="app-main-layout">
+            <aside class="app-sidebar" id="sidebar">
+                <div id="sidebarSkeleton" class="skeleton-sidebar">
+                    <div class="skeleton skeleton-title" style="width: 100%; height: 20px; margin-bottom: 10px;"></div>
+                    <div class="skeleton skeleton-desc" style="height: 30px; margin-bottom: 8px;"></div>
+                    <div class="skeleton skeleton-desc" style="height: 30px; margin-bottom: 8px;"></div>
+                </div>
+                <div id="actualSidebar" style="display: none;">
+                    <div class="app-sidebar-title">Categories</div>
+                    <ul class="app-sidebar-list" id="categoryList">
+                        <li class="app-sidebar-item active" onclick="filterCategory('all', this)">All Items</li>
+                        <li class="app-sidebar-item" onclick="filterCategory('breakfast', this)">Breakfast</li>
+                        <li class="app-sidebar-item" onclick="filterCategory('lunch', this)">Lunch & Specials</li>
+                        <li class="app-sidebar-item" onclick="filterCategory('dinner', this)">Dinner</li>
+                        <li class="app-sidebar-item" onclick="filterCategory('beverages', this)">Hot Beverages</li>
+                        <li class="app-sidebar-item" onclick="filterCategory('juices', this)">Juices</li>
+                        <li class="app-sidebar-item" onclick="filterCategory('mojito', this)">Mojito & Lime</li>
+                        <li class="app-sidebar-item" onclick="filterCategory('shakes', this)">Shakes & Smoothies</li>
+                    </ul>
+                </div>
+            </aside>
+
+            <main class="app-content">
+                <div class="app-section-title" id="sectionHeading">Loading Menu...</div>
+                <div class="app-food-grid" id="skeletonGrid" style="display: grid;">
+                    <div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton-info"><div class="skeleton skeleton-title"></div><div class="skeleton skeleton-price"></div><div class="skeleton skeleton-desc"></div><div class="skeleton skeleton-desc short"></div></div></div>
+                    <div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton-info"><div class="skeleton skeleton-title"></div><div class="skeleton skeleton-price"></div><div class="skeleton skeleton-desc"></div><div class="skeleton skeleton-desc short"></div></div></div>
+                    <div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton-info"><div class="skeleton skeleton-title"></div><div class="skeleton skeleton-price"></div><div class="skeleton skeleton-desc"></div><div class="skeleton skeleton-desc short"></div></div></div>
+                    <div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton-info"><div class="skeleton skeleton-title"></div><div class="skeleton skeleton-price"></div><div class="skeleton skeleton-desc"></div><div class="skeleton skeleton-desc short"></div></div></div>
+                </div>
+                <div class="app-food-grid" id="foodGrid"></div>
+            </main>
+        </div>
+
+        <div class="app-modal" id="foodModal">
+            <div class="app-modal-content">
+                <button class="app-modal-close" onclick="closeModal()"><i data-lucide="x"></i></button>
+                <img id="modalImg" class="app-modal-img" src="" alt="Food" onerror="this.src='https://via.placeholder.com/400x220?text=Image+Missing'">
+                <h2 class="app-modal-title" id="modalTitle">Dish</h2>
+                <div class="app-modal-price" id="modalPrice">₹0</div>
+                <div class="app-modal-desc" id="modalDesc">Description</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const GITHUB_USERNAME = "modulosagency-web"; 
+        const REPO_NAME = "Saffron-kitchan-";
+        const DATA_FILE_PATH = "menu.json"; 
+        const RAW_MENU_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/${DATA_FILE_PATH}`;
+
+        let menuData = [];
+        let currentCategory = 'all';
+        const fallbackImg = "https://via.placeholder.com/400x220?text=Image+Missing";
+
+        async function loadMenuFromGitHub() {
+            try {
+                const response = await fetch(`${RAW_MENU_URL}?t=${new Date().getTime()}`);
+                if (!response.ok) throw new Error("Menu file not found.");
+                menuData = await response.json();
+                
+                document.getElementById('skeletonGrid').style.display = 'none';
+                document.getElementById('sidebarSkeleton').style.display = 'none';
+                document.getElementById('actualSidebar').style.display = 'block';
+                document.getElementById('foodGrid').classList.add('loaded');
+                document.getElementById('sectionHeading').innerText = "All Food Items";
+
+                renderMenu(menuData);
+            } catch (error) {
+                console.error(error);
+                document.getElementById('sectionHeading').innerText = "Error Loading Menu";
+                document.getElementById('skeletonGrid').innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: red; padding: 20px;">Failed to load menu. Admin panel se pehle ek item upload karein.</p>`;
+            }
+        }
+
+        function renderMenu(items) {
+            const foodGrid = document.getElementById('foodGrid');
+            foodGrid.innerHTML = '';
+            if(items.length === 0) {
+                foodGrid.innerHTML = `<div style="text-align:center; padding: 50px; width:100%; grid-column: 1/-1; color: var(--text-muted);"><h3>No dishes found</h3></div>`;
+                return;
+            }
+            items.forEach(item => {
+                const vegHtml = item.veg ? `<div class="square"><div class="circle"></div></div>` : `<div class="square non-veg"><div class="circle non-veg"></div></div>`;
+                const card = `
+                    <div class="app-card" onclick="openModal('${item.name}', '₹${item.price}', '${item.desc}', '${item.img}')">
+                        <div class="app-card-img">
+                            <img src="${item.img}" alt="${item.name}" loading="lazy" onerror="this.onerror=null; this.src='${fallbackImg}';">
+                            <div class="veg-badge">${vegHtml}</div>
+                        </div>
+                        <div class="app-card-info">
+                            <div class="app-title-price"><h3>${item.name}</h3><span class="app-price">₹${item.price}</span></div>
+                            <p class="app-desc">${item.desc}</p>
+                            <div class="app-card-bottom"><span class="app-time"><i data-lucide="check-circle-2" style="width: 14px;"></i> Available</span></div>
+                        </div>
+                    </div>
+                `;
+                foodGrid.innerHTML += card;
+            });
+            lucide.createIcons();
+        }
+
+        function filterCategory(category, element) {
+            document.querySelectorAll('.app-sidebar-item').forEach(item => item.classList.remove('active'));
+            element.classList.add('active');
+            currentCategory = category;
+            document.getElementById('searchInput').value = '';
+            applyFilters();
+        }
+
+        function searchFood() { applyFilters(); }
+
+        function applyFilters() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const heading = document.getElementById('sectionHeading');
+            const filtered = menuData.filter(item => {
+                const matchesCategory = (currentCategory === 'all' || item.cat === currentCategory);
+                const matchesSearch = item.name.toLowerCase().includes(query) || item.desc.toLowerCase().includes(query);
+                return matchesCategory && matchesSearch;
+            });
+
+            if(query.length > 0) { heading.innerText = `Search Results for "${query}"`; }
+            else if(currentCategory === 'all') { heading.innerText = "All Food Items"; }
+            else { heading.innerText = currentCategory.charAt(0).toUpperCase() + currentCategory.slice(1) + " Menu"; }
+            renderMenu(filtered);
+        }
+
+        const modal = document.getElementById('foodModal');
+        function openModal(title, price, desc, imgSrc) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalPrice').innerText = price;
+            document.getElementById('modalDesc').innerText = desc;
+            const modalImg = document.getElementById('modalImg');
+            modalImg.src = imgSrc;
+            modalImg.onerror = function() { this.onerror=null; this.src=fallbackImg; };
+            modal.style.display = 'flex';
+        }
+        function closeModal() { modal.style.display = 'none'; }
+        modal.addEventListener('click', (e) => { if(e.target === modal) closeModal(); });
+
+        lucide.createIcons();
+        loadMenuFromGitHub();
+    </script>
+</body>
+</html>
